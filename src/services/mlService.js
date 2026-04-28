@@ -109,7 +109,7 @@ function formatProduct(item) {
     tipo_anuncio:  item.listing_type_id === 'gold_special' ? 'Premium' : 'Clássico',
     permalink:     item.permalink,
     thumbnail:     item.thumbnail,
-    alerta_estoque: item.status === 'active' && (item.available_quantity || 0) < 10,
+alerta_estoque: item.status === 'active' && (item.available_quantity || 0) < 10,
 }
 
 async function getOrders(days = 30) {
