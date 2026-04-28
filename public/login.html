@@ -3,65 +3,291 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MM Sucesso e Vendas — Login</title>
+<title>MM Sucesso & Vendas — Login</title>
+
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@300;400;500&display=swap');
-  *{box-sizing:border-box;margin:0;padding:0}
-  body{font-family:'DM Sans',sans-serif;background:#0d0f14;min-height:100vh;display:flex;align-items:center;justify-content:center}
-  .bg{position:fixed;inset:0;background:radial-gradient(ellipse 80% 60% at 50% -10%,rgba(240,192,64,.15),transparent)}
-  .card{background:#13161e;border:1px solid #252a38;border-radius:20px;padding:48px 40px;width:100%;max-width:400px;position:relative;z-index:1}
-  .logo{font-family:'Syne',sans-serif;font-size:1.6rem;font-weight:800;color:#e8eaf0;text-align:center;margin-bottom:6px}
-  .logo span{color:#f0c040}
-  .sub{text-align:center;color:#6b7280;font-size:.85rem;margin-bottom:36px}
-  label{display:block;font-size:.78rem;color:#9ca3af;text-transform:uppercase;letter-spacing:.08em;margin-bottom:6px;margin-top:18px}
-  input{width:100%;background:#0d0f14;border:1px solid #252a38;border-radius:10px;padding:12px 16px;color:#e8eaf0;font-family:'DM Sans',sans-serif;font-size:.9rem;outline:none;transition:border .2s}
-  input:focus{border-color:#f0c040}
-  .btn{width:100%;margin-top:28px;padding:14px;background:#f0c040;color:#000;border:none;border-radius:10px;font-family:'Syne',sans-serif;font-size:1rem;font-weight:700;cursor:pointer;transition:opacity .2s}
-  .btn:hover{opacity:.88}
-  .btn:disabled{opacity:.5;cursor:not-allowed}
-  .erro{background:rgba(248,113,113,.1);border:1px solid rgba(248,113,113,.3);border-radius:8px;padding:10px 14px;color:#f87171;font-size:.82rem;margin-top:14px;display:none}
-  .users-hint{margin-top:24px;padding-top:18px;border-top:1px solid #252a38;font-size:.74rem;color:#4b5563;text-align:center}
-  .users-hint strong{color:#6b7280}
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=DM+Sans:wght@400;500;600;700&display=swap');
+
+:root{
+  --bg:#f4f7fb;
+  --panel:#ffffff;
+  --border:#dbe5ef;
+  --border2:#c9d8e6;
+  --accent:#2fb8c6;
+  --accent2:#0ea5e9;
+  --accent-dark:#0f7890;
+  --red:#e55353;
+  --text:#162033;
+  --muted:#69778a;
+  --muted2:#344256;
+  --shadow:0 24px 60px rgba(15, 23, 42, .12);
+  --shadow-sm:0 10px 24px rgba(15, 23, 42, .08);
+}
+
+*{box-sizing:border-box;margin:0;padding:0}
+
+body{
+  min-height:100vh;
+  font-family:'DM Sans',sans-serif;
+  color:var(--text);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:24px;
+  background:
+    radial-gradient(circle at top left,rgba(47,184,198,.18),transparent 34%),
+    radial-gradient(circle at bottom right,rgba(14,165,233,.12),transparent 32%),
+    linear-gradient(135deg,#f7fbff 0%,#eef5fb 50%,#f7f9fc 100%);
+}
+
+.login-wrap{
+  width:100%;
+  max-width:430px;
+  position:relative;
+}
+
+.login-card{
+  background:rgba(255,255,255,.92);
+  border:1px solid rgba(219,229,239,.95);
+  border-radius:28px;
+  padding:34px;
+  box-shadow:var(--shadow);
+  backdrop-filter:blur(16px);
+  position:relative;
+  overflow:hidden;
+}
+
+.login-card::before{
+  content:'';
+  position:absolute;
+  top:0;
+  left:0;
+  right:0;
+  height:5px;
+  background:linear-gradient(135deg,var(--accent),var(--accent2));
+}
+
+.logo-box{
+  display:flex;
+  justify-content:center;
+  margin-bottom:22px;
+}
+
+.logo-img{
+  width:165px;
+  height:auto;
+  display:block;
+}
+
+.title{
+  font-family:'Inter',sans-serif;
+  font-size:1.55rem;
+  line-height:1.1;
+  font-weight:800;
+  letter-spacing:-.04em;
+  text-align:center;
+  color:var(--text);
+  margin-bottom:8px;
+}
+
+.sub{
+  text-align:center;
+  color:var(--muted);
+  font-size:.9rem;
+  margin-bottom:30px;
+}
+
+label{
+  display:block;
+  font-size:.72rem;
+  color:var(--muted);
+  text-transform:uppercase;
+  letter-spacing:.09em;
+  margin-bottom:7px;
+  margin-top:17px;
+  font-weight:800;
+}
+
+.input-wrap{
+  position:relative;
+}
+
+.input-icon{
+  position:absolute;
+  left:14px;
+  top:50%;
+  transform:translateY(-50%);
+  color:#91a1b3;
+  font-size:.95rem;
+}
+
+input{
+  width:100%;
+  background:#f8fafc;
+  border:1px solid var(--border);
+  border-radius:16px;
+  padding:13px 14px 13px 42px;
+  color:var(--text);
+  font-family:'DM Sans',sans-serif;
+  font-size:.92rem;
+  outline:none;
+  transition:border .15s, box-shadow .15s, background .15s;
+}
+
+input::placeholder{
+  color:#91a1b3;
+}
+
+input:focus{
+  border-color:var(--accent);
+  background:#fff;
+  box-shadow:0 0 0 4px rgba(47,184,198,.12);
+}
+
+.btn{
+  width:100%;
+  margin-top:28px;
+  padding:14px 18px;
+  background:linear-gradient(135deg,var(--accent),var(--accent2));
+  color:#fff;
+  border:none;
+  border-radius:16px;
+  font-family:'Inter',sans-serif;
+  font-size:.95rem;
+  font-weight:800;
+  cursor:pointer;
+  transition:transform .15s, box-shadow .15s, opacity .15s;
+  box-shadow:0 12px 26px rgba(14,165,233,.24);
+}
+
+.btn:hover{
+  transform:translateY(-1px);
+  opacity:.95;
+}
+
+.btn:disabled{
+  opacity:.55;
+  cursor:not-allowed;
+  transform:none;
+}
+
+.erro{
+  background:#fff1f2;
+  border:1px solid #fecdd3;
+  border-radius:14px;
+  padding:11px 14px;
+  color:#be123c;
+  font-size:.84rem;
+  margin-top:15px;
+  display:none;
+  font-weight:700;
+}
+
+.users-hint{
+  margin-top:24px;
+  padding:14px;
+  border:1px solid var(--border);
+  border-radius:16px;
+  background:#f7fbff;
+  font-size:.76rem;
+  color:var(--muted);
+  text-align:center;
+}
+
+.users-hint strong{
+  color:var(--accent-dark);
+  font-weight:800;
+}
+
+.footer-note{
+  text-align:center;
+  margin-top:16px;
+  font-size:.72rem;
+  color:var(--muted);
+}
+
+@media(max-width:480px){
+  body{padding:16px}
+  .login-card{padding:28px 22px}
+  .title{font-size:1.35rem}
+}
 </style>
 </head>
+
 <body>
-<div class="bg"></div>
-<div class="card">
-  <div class="logo">MM <span>Sucesso</span> & Vendas</div>
-  <div class="sub">Painel de Gestão Mercado Livre 2026</div>
-  <label>Usuário</label>
-  <input type="text" id="usuario" placeholder="Digite seu usuário" autocomplete="username">
-  <label>Senha</label>
-  <input type="password" id="senha" placeholder="••••••••" autocomplete="current-password" onkeydown="if(event.key==='Enter')login()">
-  <button class="btn" onclick="login()" id="btnLogin">Entrar</button>
-  <div class="erro" id="erro"></div>
-  <div class="users-hint">
-    Usuários: <strong>admin</strong> / <strong>mari</strong> / <strong>miria</strong>
+  <div class="login-wrap">
+    <div class="login-card">
+      <div class="logo-box">
+        <img src="https://i.ibb.co/KpTtyHGg/HW-1.png" alt="Home Wave" class="logo-img">
+      </div>
+
+      <div class="title">Bem-vindo de volta</div>
+      <div class="sub">Acesse o painel de gestão Mercado Livre 2026</div>
+
+      <label>Usuário</label>
+      <div class="input-wrap">
+        <span class="input-icon">👤</span>
+        <input type="text" id="usuario" placeholder="Digite seu usuário" autocomplete="username">
+      </div>
+
+      <label>Senha</label>
+      <div class="input-wrap">
+        <span class="input-icon">🔒</span>
+        <input type="password" id="senha" placeholder="Digite sua senha" autocomplete="current-password" onkeydown="if(event.key==='Enter')login()">
+      </div>
+
+      <button class="btn" onclick="login()" id="btnLogin">Entrar no painel</button>
+
+      <div class="erro" id="erro"></div>
+
+      <div class="users-hint">
+        Usuários: <strong>admin</strong> / <strong>mari</strong> / <strong>miria</strong>
+      </div>
+    </div>
+
+    <div class="footer-note">MM Sucesso & Vendas</div>
   </div>
-</div>
+
 <script>
 async function login() {
   const usuario = document.getElementById('usuario').value.trim();
   const senha   = document.getElementById('senha').value;
   const btn     = document.getElementById('btnLogin');
-  const erro    = document.getElementById('erro');
-  if (!usuario || !senha) { showErro('Preencha usuário e senha'); return; }
-  btn.disabled = true; btn.textContent = 'Entrando...';
+
+  if (!usuario || !senha) {
+    showErro('Preencha usuário e senha');
+    return;
+  }
+
+  btn.disabled = true;
+  btn.textContent = 'Entrando...';
+
   try {
     const r = await fetch('/auth/login', {
       method: 'POST',
       headers: {'Content-Type':'application/json'},
       body: JSON.stringify({ usuario, senha }),
     });
+
     const data = await r.json();
-    if (r.ok) { window.location.href = '/'; }
-    else { showErro(data.erro || 'Erro ao fazer login'); }
-  } catch(e) { showErro('Erro de conexão'); }
-  btn.disabled = false; btn.textContent = 'Entrar';
+
+    if (r.ok) {
+      window.location.href = '/';
+    } else {
+      showErro(data.erro || 'Erro ao fazer login');
+    }
+  } catch(e) {
+    showErro('Erro de conexão');
+  }
+
+  btn.disabled = false;
+  btn.textContent = 'Entrar no painel';
 }
+
 function showErro(msg) {
   const el = document.getElementById('erro');
-  el.textContent = msg; el.style.display = 'block';
+  el.textContent = msg;
+  el.style.display = 'block';
 }
 </script>
 </body>
