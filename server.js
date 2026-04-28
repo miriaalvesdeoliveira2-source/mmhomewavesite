@@ -6,6 +6,7 @@ const path         = require('path');
 const requireLogin = require('./src/middleware/auth');
 const authRoutes   = require('./src/routes/auth');
 const mlRoutes     = require('./src/routes/ml');
+const costRoutes   = require('./src/routes/cost');
 
 const app  = express();
 const PORT = process.env.PORT || 3000;
@@ -48,6 +49,7 @@ app.get('/api/ml/connect', (req, res) => {
 app.use(requireLogin);
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/api/ml', mlRoutes);
+app.use('/api', costRoutes);
 
 app.get('*', (req, res) => {
   if (req.path.startsWith('/api/')) return res.status(404).json({ erro: 'Rota não encontrada' });
