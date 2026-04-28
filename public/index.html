@@ -5,6 +5,107 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>MM Sucesso & Vendas</title>
 <style>
+  @media (max-width: 860px){
+
+  body{
+    display:block;
+    overflow-x:hidden;
+  }
+
+  .sidebar{
+    display:none;
+  }
+
+  .main{
+    margin-left:0;
+    width:100%;
+  }
+
+  .topbar{
+    margin:10px;
+    padding:18px;
+    border-radius:22px;
+    position:relative;
+    top:auto;
+    flex-direction:column;
+    align-items:flex-start;
+    gap:16px;
+  }
+
+  .topbar-title{
+    font-size:2rem;
+    line-height:1.05;
+  }
+
+  .topbar-sub{
+    font-size:1rem;
+  }
+
+  .topbar-right{
+    width:100%;
+    display:grid;
+    grid-template-columns:1fr;
+    gap:10px;
+  }
+
+  .topbar-right .btn-ghost,
+  .topbar-right .btn-primary{
+    width:100%;
+    justify-content:center;
+    padding:14px 16px;
+    font-size:1rem;
+  }
+
+  .page{
+    padding:10px;
+  }
+
+  .table-wrap{
+    border-radius:22px;
+    overflow-x:auto;
+  }
+
+  .table-bar{
+    padding:16px;
+    flex-direction:column;
+    align-items:stretch;
+  }
+
+  .table-bar-right{
+    width:100%;
+  }
+
+  .search-box{
+    width:100%;
+  }
+
+  .search-box input{
+    width:100%;
+  }
+
+  .filter-bar{
+    padding:14px;
+    gap:10px;
+  }
+
+  .filter-btn{
+    padding:10px 15px;
+    font-size:.9rem;
+  }
+
+  table{
+    min-width:760px;
+  }
+
+  th, td{
+    padding:14px 16px;
+  }
+
+  .pname{
+    max-width:260px;
+  }
+
+}
 
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=DM+Sans:wght@400;500;600;700&display=swap');
 
@@ -353,12 +454,9 @@ nav{flex:1;padding:12px;display:flex;flex-direction:column;gap:4px;overflow-y:au
 .grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px;margin-bottom:18px}
 
 .table-wrap{
-  background:rgba(255,255,255,.94);
-  border:1px solid rgba(219,229,239,.95);
-  border-radius:26px;
-  overflow:hidden;
-  margin-bottom:20px;
-  box-shadow:var(--shadow-sm);
+  max-width:100%;
+  overflow-x:auto;
+}
 }
 .table-bar{
   display:flex;
