@@ -2,6 +2,8 @@ const express = require('express');
 const router = express.Router();
 const costService = require('../services/costService');
 
+const fetch = (...args) => import('node-fetch').then(({default: fetch}) => fetch(...args));
+
 router.post('/product/cost', async (req, res) => {
   const { item_id, cost } = req.body;
 
