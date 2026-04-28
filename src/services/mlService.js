@@ -1,6 +1,7 @@
 const axios = require('axios');
 const crypto = require('crypto');
 const store  = require('./tokenStore');
+const costService = require('./costService');
 
 const BASE      = 'https://api.mercadolibre.com';
 const AUTH_URL  = 'https://auth.mercadolivre.com.br/authorization';
