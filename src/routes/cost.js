@@ -2,7 +2,8 @@ const express = require('express');
 const router = express.Router();
 const costService = require('../services/costService');
 
-const fetch = (...args) => import('node-fetch').then(({default: fetch}) => fetch(...args));
+// fetch compatível com qualquer Node
+const fetch = (...args) => import('node-fetch').then(({ default: fetch }) => fetch(...args));
 
 router.post('/product/cost', async (req, res) => {
   const { item_id, cost } = req.body;
@@ -12,10 +13,8 @@ router.post('/product/cost', async (req, res) => {
   }
 
   try {
-    // continua salvando local
     costService.saveCost(item_id, parseFloat(cost));
 
-    // envia para o Google Sheets
     await fetch(process.env.GOOGLE_SHEETS_WEBHOOK_URL, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -34,3 +33,5 @@ router.post('/product/cost', async (req, res) => {
     res.status(500).json({ erro: 'Erro ao salvar custo' });
   }
 });
+
+module.exports = router;
