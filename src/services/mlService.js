@@ -99,19 +99,33 @@ async function getProducts() {
 }
 
 function formatProduct(item) {
+  const cost = costService.getCost(item.id);
+  const preco = item.price || 0;
+
+  const lucro = cost
+    ? preco - cost
+    : null;
+
+  const margem = cost && preco
+    ? ((lucro / preco) * 100).toFixed(1)
+    : null;
+
   return {
     id:            item.id,
     sku:           item.seller_sku || item.id,
     nome:          item.title,
-    preco:         item.price || 0,
+    preco,
+    custo:         cost,
+    lucro,
+    margem,
     estoque:       item.available_quantity || 0,
     vendidos:      item.sold_quantity || 0,
     status:        item.status,
     tipo_anuncio:  item.listing_type_id === 'gold_special' ? 'Premium' : 'Clássico',
     permalink:     item.permalink,
     thumbnail:     item.thumbnail,
-    alerta_estoque: item.status === 'active' && (item.available_quantity || 0) < 10,
-      };
+    alerta_estoque: (item.available_quantity || 0) < 10,
+  };
 }
     
 
