@@ -859,8 +859,7 @@ body {
         <button class="filter-btn" onclick="filterStatus('',this)">Todos</button>
       </div>
       <table>
-        <thead><tr><th>Produto</th><th>Tipo</th><th>Status</th><th class="r">Preço</th><th class="r">Estoque</th><th class="r">Vendidos</th><th class="r">Link</th></tr></thead>
-        <tbody id="prodTbody"></tbody>
+<thead><tr><th>Produto</th><th>Tipo</th><th>Status</th><th class="r">Preço</th><th class="r">Custo</th><th class="r">Estoque</th><th class="r">Vendidos</th><th class="r">Link</th></tr></thead>        <tbody id="prodTbody"></tbody>
       </table>
       <div class="pag" id="prodPag"></div>
     </div>
@@ -1088,7 +1087,18 @@ function filterProds(){applyProdFilters();S.prodPage=1;renderProdTable();}
 function filterStatus(st,btn){S.prodStatus=st;S.prodPage=1;document.querySelectorAll('.filter-bar .filter-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');applyProdFilters();renderProdTable();}
 function applyProdFilters(){const q=(el('prodSearch')?.value||'').toLowerCase();S.filtProds=S.prods.filter(p=>(!S.prodStatus||p.status===S.prodStatus)&&(p.nome.toLowerCase().includes(q)||(p.sku||'').toLowerCase().includes(q)));}
 function sortProds(f,btn){document.querySelectorAll('.filter-bar .filter-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');S.prodSort=f;S.prodPage=1;S.filtProds.sort((a,b)=>f==='nome'?a.nome.localeCompare(b.nome):f==='estoque'?a[f]-b[f]:b[f]-a[f]);renderProdTable();}
-function renderProdTable(){const pages=Math.ceil(S.filtProds.length/PER);const slice=S.filtProds.slice((S.prodPage-1)*PER,S.prodPage*PER);el('prodTbody').innerHTML=slice.map(p=>`<tr><td><span class="pname" title="${p.nome}">${p.nome}</span><span class="psku">${p.sku}</span></td><td><span class="chip ${p.tipo_anuncio==='Premium'?'chip-gold':'chip-blue'}">${p.tipo_anuncio}</span></td><td><span class="chip ${p.status==='active'?'chip-green':'chip-red'}">${p.status==='active'?'Ativo':'Pausado'}</span></td><td class="r">${fmt(p.preco)}</td><td class="r" style="color:${p.alerta_estoque?'var(--red)':p.estoque>50?'var(--green)':'var(--text)'};font-weight:${p.alerta_estoque?700:400}">${p.estoque}</td><td class="r">${fmtN(p.vendidos)}</td><td class="r"><a href="${p.permalink}" target="_blank" style="color:var(--accent);font-size:.73rem;text-decoration:none">Ver →</a></td></tr>`).join('')||'<tr><td colspan="7" class="empty">Nenhum produto</td></tr>';renderPag('prodPag',pages,S.prodPage,p=>{S.prodPage=p;renderProdTable();},S.filtProds.length);}
+<td class="r">${fmt(p.preco)}</td>
+
+<td class="r"
+    style="cursor:pointer;color:${!p.custo ? 'var(--gold)' : 'var(--text)'}"
+    onclick="setCost('${p.id}')">
+  ${p.custo ? fmt(p.custo) : 'Custo não informado'}
+</td>
+
+<td class="r"
+    style="color:${p.alerta_estoque?'var(--red)':p.estoque>50?'var(--green)':'var(--text)'};font-weight:${p.alerta_estoque?700:400}">
+  ${p.estoque}
+</td><td class="r">${fmtN(p.vendidos)}</td><td class="r"><a href="${p.permalink}" target="_blank" style="color:var(--accent);font-size:.73rem;text-decoration:none">Ver →</a></td></tr>`).join('')||'<tr><td colspan="7" class="empty">Nenhum produto</td></tr>';renderPag('prodPag',pages,S.prodPage,p=>{S.prodPage=p;renderProdTable();},S.filtProds.length);}
 
 async function loadOrders(){const days=el('daysSel')?.value||30;html('ordTbody','<tr><td colspan="6"><div class="loading"><div class="spin"></div></div></td></tr>');try{const r=await fetch(`/api/ml/orders?days=${days}`);const d=await r.json();S.ords=d.pedidos||[];S.ordPage=1;const or=d.resumo||{};el('ordKPIs').innerHTML=kpiHtml([{icon:'🛒',label:`Pedidos (${days}d)`,val:fmtN(or.total||0),cls:'yl'},{icon:'💰',label:'Faturamento',val:fmt(parseFloat(or.faturamento||0)),cls:'pos'},{icon:'✅',label:'Pagos',val:fmtN(or.pagos||0),cls:'pos'},{icon:'⏳',label:'Em Andamento',val:fmtN(or.em_andamento||0),cls:'bl'},{icon:'❌',label:'Cancelados',val:fmtN(or.cancelados||0),cls:'neg'}]);renderOrdTable();}catch(e){html('ordTbody',`<tr><td colspan="6" class="empty">Erro: ${e.message}</td></tr>`);}}
 
@@ -1120,6 +1130,24 @@ function renderPag(id,pages,cur,cb,total){if(pages<=1){el(id).innerHTML='';retur
 
 async function init(){const ok=await checkAuth();if(!ok)return;await checkML();await loadDashboard();const p=new URLSearchParams(location.search);if(p.get('ml')==='conectado'){toast('✅ Mercado Livre conectado!','success');history.replaceState({},'','/');}if(p.get('ml')==='erro'){toast('❌ Erro ao conectar com ML','error');}}
 init();
+  async function setCost(id){
+  const valor = prompt('Digite o custo do produto:');
+
+  if(!valor) return;
+
+  await fetch('/api/product/cost', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      item_id: id,
+      cost: parseFloat(valor)
+    })
+  });
+
+  toast('Custo salvo!', 'success');
+  loadProducts();
+}
+  
 </script>
 </body>
 </html>
