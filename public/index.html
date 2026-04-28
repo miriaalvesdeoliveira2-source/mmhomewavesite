@@ -1,0 +1,977 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MM Sucesso & Vendas</title>
+<style>
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=DM+Sans:wght@400;500;600;700&display=swap');
+
+:root{
+  --bg:#f4f7fb;
+  --panel:#ffffff;
+  --panel-soft:#f8fafc;
+  --panel-2:#eef4fb;
+  --sidebar:#0b1726;
+  --sidebar-2:#12243a;
+  --sidebar-hover:#183251;
+  --border:#dbe5ef;
+  --border2:#c9d8e6;
+  --accent:#2fb8c6;
+  --accent2:#0ea5e9;
+  --accent-dark:#0f7890;
+  --green:#18a676;
+  --red:#e55353;
+  --blue:#2878d7;
+  --purple:#7458d8;
+  --gold:#f4b63f;
+  --text:#162033;
+  --muted:#69778a;
+  --muted2:#344256;
+  --white:#ffffff;
+  --shadow:0 16px 40px rgba(15, 23, 42, .08);
+  --shadow-sm:0 8px 20px rgba(15, 23, 42, .06);
+  --r:14px;
+  --r2:22px;
+}
+
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;
+  font-family:'DM Sans',sans-serif;
+  background:
+    radial-gradient(circle at top left,rgba(47,184,198,.16),transparent 34%),
+    linear-gradient(135deg,#f7fbff 0%,#eef5fb 50%,#f7f9fc 100%);
+  color:var(--text);
+  display:flex;
+  min-height:100vh;
+  overflow-x:hidden;
+}
+
+.sidebar{
+  width:276px;
+  background:linear-gradient(180deg,var(--sidebar) 0%,#081321 100%);
+  border-right:1px solid rgba(255,255,255,.08);
+  display:flex;
+  flex-direction:column;
+  position:fixed;
+  top:18px;
+  left:18px;
+  height:calc(100vh - 36px);
+  z-index:300;
+  border-radius:26px;
+  box-shadow:0 24px 60px rgba(8,19,33,.24);
+  overflow:hidden;
+}
+
+.sidebar-top{
+  padding:26px 22px 20px;
+  border-bottom:1px solid rgba(255,255,255,.08);
+}
+.logo{margin-bottom:18px}
+.logo-img{width:154px;height:auto;display:block;filter:brightness(1.08)}
+.user-chip{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  background:rgba(255,255,255,.06);
+  border:1px solid rgba(255,255,255,.1);
+  border-radius:18px;
+  padding:12px;
+}
+.user-avatar{
+  width:38px;height:38px;
+  background:linear-gradient(135deg,var(--accent),#a7f3d0);
+  border-radius:14px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:.85rem;font-weight:800;color:#06212a;flex-shrink:0;
+}
+.user-name{font-size:.9rem;font-weight:700;color:#fff}
+.user-role{font-size:.72rem;color:#9eb1c7;margin-top:2px}
+
+.ml-pill{
+  margin:14px 16px 4px;
+  padding:10px 12px;
+  border-radius:16px;
+  font-size:.78rem;
+  display:flex;
+  align-items:center;
+  gap:9px;
+  border:1px solid;
+  cursor:pointer;
+  transition:transform .15s,opacity .15s,border-color .15s;
+}
+.ml-pill:hover{opacity:.9;transform:translateY(-1px)}
+.ml-pill.on{border-color:rgba(24,166,118,.32);background:rgba(24,166,118,.12);color:#83f1c9}
+.ml-pill.off{border-color:rgba(229,83,83,.28);background:rgba(229,83,83,.1);color:#ffb4b4}
+.ml-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.ml-pill.on .ml-dot{background:var(--green);box-shadow:0 0 12px var(--green)}
+.ml-pill.off .ml-dot{background:var(--red)}
+.ml-pill-txt{flex:1}
+
+nav{flex:1;padding:12px;display:flex;flex-direction:column;gap:4px;overflow-y:auto}
+.nav-group{
+  font-size:.65rem;
+  text-transform:uppercase;
+  letter-spacing:.14em;
+  color:#718399;
+  padding:16px 12px 6px;
+  font-weight:800;
+}
+.nav-btn{
+  display:flex;
+  align-items:center;
+  gap:11px;
+  padding:12px 12px;
+  border-radius:16px;
+  border:none;
+  background:transparent;
+  color:#b8c6d8;
+  font-family:'DM Sans',sans-serif;
+  font-size:.9rem;
+  cursor:pointer;
+  transition:all .18s;
+  width:100%;
+  text-align:left;
+  position:relative;
+}
+.nav-btn:hover{background:var(--sidebar-hover);color:#fff;transform:translateX(2px)}
+.nav-btn.active{
+  background:linear-gradient(135deg,var(--accent) 0%,var(--accent2) 100%);
+  color:#ffffff;
+  font-weight:800;
+  box-shadow:0 10px 24px rgba(14,165,233,.28);
+}
+.nav-btn.active::before{display:none}
+.nav-icon{
+  width:28px;height:28px;
+  border-radius:11px;
+  background:rgba(255,255,255,.08);
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  flex-shrink:0;
+  font-size:.95rem;
+}
+.nav-btn.active .nav-icon{background:rgba(255,255,255,.2)}
+.nav-badge{
+  margin-left:auto;
+  background:#ff5c7a;
+  color:#fff;
+  border-radius:999px;
+  font-size:.65rem;
+  padding:3px 7px;
+  font-weight:800;
+}
+
+.sidebar-footer{
+  padding:14px;
+  border-top:1px solid rgba(255,255,255,.08);
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+}
+.btn-sm{
+  width:100%;
+  padding:11px 12px;
+  border-radius:15px;
+  border:1px solid rgba(255,255,255,.1);
+  background:rgba(255,255,255,.05);
+  color:#c5d3e4;
+  font-family:'DM Sans',sans-serif;
+  font-size:.82rem;
+  cursor:pointer;
+  transition:all .15s;
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+.btn-sm:hover{border-color:rgba(47,184,198,.55);color:#fff;background:rgba(47,184,198,.12)}
+
+.main{
+  margin-left:312px;
+  flex:1;
+  display:flex;
+  flex-direction:column;
+  min-width:0;
+}
+.topbar{
+  margin:18px 18px 0 0;
+  background:rgba(255,255,255,.82);
+  backdrop-filter:blur(16px);
+  border:1px solid rgba(219,229,239,.75);
+  box-shadow:var(--shadow-sm);
+  padding:18px 24px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  position:sticky;
+  top:18px;
+  z-index:100;
+  border-radius:24px;
+}
+.topbar-title{
+  font-family:'Inter',sans-serif;
+  font-size:1.45rem;
+  line-height:1;
+  font-weight:800;
+  letter-spacing:-.04em;
+  color:var(--text);
+}
+.topbar-sub{font-size:.85rem;color:var(--muted);margin-top:6px}
+.topbar-right{display:flex;gap:10px;align-items:center}
+
+.btn-primary{
+  padding:10px 18px;
+  background:linear-gradient(135deg,var(--accent),var(--accent2));
+  border:none;
+  border-radius:14px;
+  color:#fff;
+  font-family:'Inter',sans-serif;
+  font-size:.82rem;
+  font-weight:800;
+  cursor:pointer;
+  transition:transform .15s,box-shadow .15s,opacity .15s;
+  display:flex;
+  align-items:center;
+  gap:7px;
+  box-shadow:0 10px 22px rgba(14,165,233,.23);
+}
+.btn-primary:hover{opacity:.95;transform:translateY(-1px)}
+.btn-ghost{
+  padding:10px 15px;
+  background:var(--panel);
+  border:1px solid var(--border);
+  border-radius:14px;
+  color:var(--muted2);
+  font-family:'DM Sans',sans-serif;
+  font-size:.82rem;
+  font-weight:700;
+  cursor:pointer;
+  transition:all .15s;
+  display:flex;
+  align-items:center;
+  gap:7px;
+}
+.btn-ghost:hover{border-color:var(--accent);color:var(--accent-dark);box-shadow:var(--shadow-sm)}
+
+.page{display:none;padding:24px 18px 60px 0}
+.page.active{display:block;animation:fadeIn .24s ease}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+
+.kpi-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(190px,1fr));
+  gap:16px;
+  margin-bottom:22px;
+}
+.kpi{
+  background:rgba(255,255,255,.9);
+  border:1px solid rgba(219,229,239,.9);
+  border-radius:var(--r2);
+  padding:20px;
+  position:relative;
+  overflow:hidden;
+  transition:transform .2s,border-color .2s,box-shadow .2s;
+  box-shadow:var(--shadow-sm);
+}
+.kpi::after{
+  content:'';
+  position:absolute;
+  right:-30px;
+  top:-34px;
+  width:96px;
+  height:96px;
+  border-radius:50%;
+  background:rgba(47,184,198,.10);
+}
+.kpi:hover{transform:translateY(-3px);border-color:var(--border2);box-shadow:var(--shadow)}
+.kpi-accent{position:absolute;top:0;left:0;right:0;height:4px}
+.kpi-icon{
+  width:42px;height:42px;
+  border-radius:16px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:var(--panel-2);
+  font-size:1.25rem;
+  margin-bottom:14px;
+}
+.kpi-label{
+  font-size:.7rem;
+  color:var(--muted);
+  text-transform:uppercase;
+  letter-spacing:.1em;
+  font-weight:800;
+  margin-bottom:8px;
+}
+.kpi-val{
+  font-family:'Inter',sans-serif;
+  font-size:1.8rem;
+  font-weight:800;
+  letter-spacing:-.045em;
+  line-height:1;
+}
+.kpi-val.pos{color:var(--green)}
+.kpi-val.neg{color:var(--red)}
+.kpi-val.yl{color:var(--accent-dark)}
+.kpi-val.bl{color:var(--blue)}
+
+.sec-title{
+  font-family:'Inter',sans-serif;
+  font-size:.78rem;
+  font-weight:800;
+  color:var(--muted);
+  text-transform:uppercase;
+  letter-spacing:.12em;
+  margin-bottom:14px;
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+.sec-title::after{content:'';flex:1;height:1px;background:var(--border)}
+.card{
+  background:rgba(255,255,255,.92);
+  border:1px solid rgba(219,229,239,.9);
+  border-radius:var(--r2);
+  padding:22px;
+  margin-bottom:18px;
+  box-shadow:var(--shadow-sm);
+}
+.card-title{
+  font-family:'Inter',sans-serif;
+  font-size:.8rem;
+  font-weight:800;
+  color:var(--muted2);
+  text-transform:uppercase;
+  letter-spacing:.08em;
+  margin-bottom:18px;
+}
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:18px}
+.grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px;margin-bottom:18px}
+
+.table-wrap{
+  background:rgba(255,255,255,.94);
+  border:1px solid rgba(219,229,239,.95);
+  border-radius:26px;
+  overflow:hidden;
+  margin-bottom:20px;
+  box-shadow:var(--shadow-sm);
+}
+.table-bar{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:18px 20px;
+  border-bottom:1px solid var(--border);
+  gap:12px;
+  flex-wrap:wrap;
+  background:linear-gradient(180deg,#fff 0%,#fbfdff 100%);
+}
+.table-bar-title{
+  font-family:'Inter',sans-serif;
+  font-size:.86rem;
+  font-weight:800;
+  color:var(--text);
+  text-transform:uppercase;
+  letter-spacing:.08em;
+}
+.table-bar-right{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.search-box{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  background:#f4f8fc;
+  border:1px solid var(--border);
+  border-radius:14px;
+  padding:9px 13px;
+}
+.search-box input{
+  background:none;border:none;outline:none;color:var(--text);
+  font-family:'DM Sans',sans-serif;
+  font-size:.84rem;
+  width:180px;
+}
+.search-box input::placeholder{color:#91a1b3}
+.filter-bar{
+  display:flex;
+  gap:8px;
+  padding:12px 20px;
+  flex-wrap:wrap;
+  background:#fbfdff;
+  border-bottom:1px solid var(--border);
+}
+.filter-btn{
+  padding:7px 13px;
+  border-radius:999px;
+  border:1px solid var(--border);
+  background:#fff;
+  color:var(--muted);
+  font-family:'DM Sans',sans-serif;
+  font-size:.75rem;
+  font-weight:700;
+  cursor:pointer;
+  transition:all .15s;
+}
+.filter-btn.active,.filter-btn:hover{
+  border-color:rgba(47,184,198,.65);
+  color:var(--accent-dark);
+  background:rgba(47,184,198,.08);
+}
+table{width:100%;border-collapse:collapse}
+thead tr{border-bottom:1px solid var(--border);background:#f7fbff}
+th{
+  padding:12px 16px;
+  text-align:left;
+  font-size:.68rem;
+  text-transform:uppercase;
+  letter-spacing:.1em;
+  color:var(--muted);
+  font-weight:800;
+}
+th.r{text-align:right}
+tbody tr{border-bottom:1px solid rgba(219,229,239,.75);transition:background .12s}
+tbody tr:hover{background:#f9fcff}
+tbody tr:last-child{border-bottom:none}
+td{padding:13px 16px;font-size:.84rem;color:var(--muted2)}
+td.r{text-align:right}
+.pname{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:270px;color:var(--text);font-weight:700}
+.psku{font-size:.7rem;color:var(--muted);margin-top:4px;display:block}
+.chip{display:inline-flex;align-items:center;padding:4px 10px;border-radius:999px;font-size:.7rem;font-weight:800}
+.chip-gold{background:rgba(244,182,63,.15);color:#a86b00}
+.chip-blue{background:rgba(40,120,215,.1);color:var(--blue)}
+.chip-green{background:rgba(24,166,118,.1);color:var(--green)}
+.chip-red{background:rgba(229,83,83,.1);color:var(--red)}
+.chip-purple{background:rgba(116,88,216,.1);color:var(--purple)}
+.pag{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:14px 20px;
+  border-top:1px solid var(--border);
+  font-size:.78rem;
+  color:var(--muted);
+  background:#fbfdff;
+}
+.pag-btns{display:flex;gap:6px}
+.pag-btn{
+  min-width:30px;height:30px;
+  border-radius:10px;
+  border:1px solid var(--border);
+  background:#fff;
+  color:var(--muted);
+  cursor:pointer;
+  font-size:.75rem;
+  transition:all .12s;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+}
+.pag-btn.active{background:var(--accent);color:#fff;border-color:var(--accent);font-weight:800}
+.pag-btn:hover:not(.active){border-color:var(--accent);color:var(--accent-dark)}
+
+.bar-chart{display:flex;flex-direction:column;gap:12px}
+.bar-row{display:flex;align-items:center;gap:12px;font-size:.78rem}
+.bar-lbl{width:135px;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;flex-shrink:0;font-weight:700}
+.bar-track{flex:1;background:#e8f1f8;border-radius:999px;height:9px;overflow:hidden}
+.bar-fill{height:100%;border-radius:999px;transition:width .55s cubic-bezier(.4,0,.2,1)}
+.bar-num{width:76px;text-align:right;color:var(--accent-dark);font-size:.74rem;font-weight:800}
+.fin-row{margin-bottom:17px}
+.fin-head{display:flex;justify-content:space-between;font-size:.82rem;margin-bottom:7px;color:var(--muted2);font-weight:700}
+.fin-track{background:#e8f1f8;border-radius:999px;height:11px;overflow:hidden}
+.fin-fill{height:100%;border-radius:999px;transition:width .55s cubic-bezier(.4,0,.2,1)}
+.donut-wrap{display:flex;flex-direction:column;align-items:center;gap:16px}
+.donut-legend{display:flex;flex-direction:column;gap:8px;width:100%}
+.leg-row{display:flex;align-items:center;gap:9px;font-size:.78rem}
+.leg-dot{width:9px;height:9px;border-radius:50%;flex-shrink:0}
+.leg-name{flex:1;font-weight:700;color:var(--muted2)}
+.leg-val{color:var(--muted);font-size:.73rem}
+
+.alert-wrap{display:flex;flex-direction:column;gap:9px}
+.alert-item{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  padding:12px 13px;
+  border-radius:16px;
+  background:#f7fbff;
+  border:1px solid var(--border);
+  font-size:.82rem;
+}
+.alert-icon{
+  width:34px;height:34px;
+  border-radius:13px;
+  background:#edf6fb;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  font-size:1rem;
+  flex-shrink:0;
+}
+.alert-body{flex:1;min-width:0}
+.alert-name{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:block;color:var(--text);font-weight:700}
+.alert-sub{font-size:.7rem;color:var(--muted);margin-top:3px}
+.alert-val{font-weight:800;white-space:nowrap;font-size:.83rem}
+
+.loading{display:flex;align-items:center;justify-content:center;gap:10px;padding:50px;color:var(--muted);font-size:.86rem}
+.spin{width:18px;height:18px;border:2px solid var(--border2);border-top-color:var(--accent);border-radius:50%;animation:spin .65s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.empty{text-align:center;padding:30px;color:var(--muted);font-size:.84rem}
+
+.modal-bg{
+  position:fixed;
+  inset:0;
+  background:rgba(8,19,33,.56);
+  backdrop-filter:blur(8px);
+  z-index:500;
+  display:none;
+  align-items:center;
+  justify-content:center;
+}
+.modal-bg.open{display:flex;animation:fadeIn .15s ease}
+.modal{
+  background:var(--panel);
+  border:1px solid var(--border2);
+  border-radius:26px;
+  padding:26px;
+  width:90%;
+  max-width:520px;
+  max-height:85vh;
+  overflow-y:auto;
+  box-shadow:0 28px 80px rgba(8,19,33,.24);
+}
+.modal-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px}
+.modal-title{font-family:'Inter',sans-serif;font-size:1rem;font-weight:800;color:var(--text)}
+.modal-close{background:#f3f7fb;border:1px solid var(--border);color:var(--muted);cursor:pointer;font-size:1rem;padding:6px 10px;border-radius:12px}
+.modal-row{display:flex;justify-content:space-between;align-items:flex-start;padding:10px 0;border-bottom:1px solid var(--border);font-size:.84rem}
+.modal-row:last-child{border-bottom:none}
+.modal-row-label{color:var(--muted)}
+.styled-select{
+  background:#fff;
+  border:1px solid var(--border);
+  border-radius:14px;
+  color:var(--text);
+  padding:9px 12px;
+  font-size:.82rem;
+  font-family:'DM Sans',sans-serif;
+  outline:none;
+  cursor:pointer;
+}
+.styled-select:hover{border-color:var(--accent)}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:16px}
+.form-field label{display:block;font-size:.7rem;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:6px;font-weight:800}
+.form-field input,.form-field select{
+  width:100%;
+  background:#f8fafc;
+  border:1px solid var(--border);
+  border-radius:14px;
+  padding:11px 12px;
+  color:var(--text);
+  font-family:'DM Sans',sans-serif;
+  font-size:.84rem;
+  outline:none;
+  transition:border .15s;
+}
+.form-field input:focus,.form-field select:focus{border-color:var(--accent)}
+.form-field.full{grid-column:1/-1}
+.setting-row{display:flex;align-items:center;justify-content:space-between;padding:14px 0;border-bottom:1px solid var(--border);font-size:.84rem}
+.setting-row:last-child{border-bottom:none}
+.setting-label{color:var(--muted2);font-weight:700}
+.setting-val{font-family:monospace;font-size:.78rem;color:var(--text);background:#f3f7fb;padding:5px 9px;border-radius:9px}
+.user-card{display:flex;align-items:center;gap:12px;background:#f7fbff;border:1px solid var(--border);border-radius:16px;padding:13px 14px;margin-bottom:9px}
+
+#toast{
+  position:fixed;
+  bottom:24px;
+  right:24px;
+  padding:13px 18px;
+  border-radius:16px;
+  font-size:.84rem;
+  font-weight:800;
+  z-index:9999;
+  transform:translateY(70px);
+  opacity:0;
+  transition:all .28s cubic-bezier(.4,0,.2,1);
+  max-width:320px;
+  pointer-events:none;
+  box-shadow:var(--shadow);
+}
+#toast.show{transform:translateY(0);opacity:1}
+#toast.success{background:#ecfdf5;border:1px solid #a7f3d0;color:#047857}
+#toast.error{background:#fff1f2;border:1px solid #fecdd3;color:#be123c}
+#toast.info{background:#eff6ff;border:1px solid #bfdbfe;color:#1d4ed8}
+
+@media (max-width:1100px){
+  .grid-3{grid-template-columns:1fr}
+  .grid-2{grid-template-columns:1fr}
+}
+@media (max-width:860px){
+  body{display:block}
+  .sidebar{
+    position:relative;
+    width:auto;
+    height:auto;
+    left:auto;
+    top:auto;
+    margin:12px;
+  }
+  .main{margin-left:0}
+  .topbar{margin:12px;top:12px}
+  .page{padding:12px}
+  .topbar{align-items:flex-start;gap:14px;flex-direction:column}
+  .topbar-right{width:100%;flex-wrap:wrap}
+}
+
+</style>
+</head>
+<body>
+  
+
+<aside class="sidebar">
+  <div class="sidebar-top">
+ <div class="logo">
+  <img src="https://i.ibb.co/KpTtyHGg/HW-1.png" alt="Home Wave" class="logo-img">
+</div>    <div class="user-chip">
+      <div class="user-avatar" id="userAv">?</div>
+      <div>
+        <div class="user-name" id="userName">Carregando...</div>
+        <div class="user-role">Gestor ML 2026</div>
+      </div>
+    </div>
+  </div>
+  <div class="ml-pill off" id="mlPill" onclick="connectML()">
+    <div class="ml-dot"></div>
+    <span class="ml-pill-txt" id="mlPillTxt">ML Desconectado</span>
+    <span style="font-size:.65rem;opacity:.7">Conectar →</span>
+  </div>
+  <nav>
+    <div class="nav-group">Principal</div>
+    <button class="nav-btn active" data-page="dashboard" onclick="goTo('dashboard')"><span class="nav-icon">📊</span>Dashboard</button>
+    <button class="nav-btn" data-page="products" onclick="goTo('products')"><span class="nav-icon">📦</span>Produtos</button>
+    <button class="nav-btn" data-page="orders" onclick="goTo('orders')"><span class="nav-icon">🛒</span>Pedidos</button>
+    <div class="nav-group">Financeiro</div>
+    <button class="nav-btn" data-page="expenses" onclick="goTo('expenses')"><span class="nav-icon">💸</span>Despesas</button>
+    <button class="nav-btn" data-page="balance" onclick="goTo('balance')"><span class="nav-icon">💰</span>Saldo</button>
+    <div class="nav-group">Gestão</div>
+    <button class="nav-btn" data-page="alerts" onclick="goTo('alerts')"><span class="nav-icon">🚨</span>Alertas<span class="nav-badge" id="alertBadge" style="display:none">0</span></button>
+    <button class="nav-btn" data-page="questions" onclick="goTo('questions')"><span class="nav-icon">❓</span>Perguntas<span class="nav-badge" id="quesBadge" style="display:none">0</span></button>
+    <button class="nav-btn" data-page="settings" onclick="goTo('settings')"><span class="nav-icon">⚙️</span>Configurações</button>
+  </nav>
+  <div class="sidebar-footer">
+    <button class="btn-sm" onclick="refreshAll()">🔄 Atualizar dados</button>
+    <button class="btn-sm" onclick="logout()" style="color:var(--red);border-color:rgba(248,113,113,.2)">🚪 Sair</button>
+  </div>
+</aside>
+
+<div class="main">
+  <div class="topbar">
+    <div>
+      <div class="topbar-title" id="topTitle">Dashboard</div>
+      <div class="topbar-sub" id="topSub">Visão geral do negócio</div>
+    </div>
+    <div class="topbar-right">
+      <button class="btn-ghost" onclick="refreshAll()">🔄 Atualizar</button>
+      <button class="btn-primary" id="btnML" onclick="connectML()">🔗 Conectar ML</button>
+    </div>
+  </div>
+
+  <!-- DASHBOARD -->
+  <div class="page active" id="page-dashboard">
+    <div class="kpi-grid" id="dashKPIs"><div class="loading" style="grid-column:1/-1"><div class="spin"></div> Carregando...</div></div>
+    <div class="grid-3">
+      <div class="card"><div class="card-title">💰 Resultado 30 dias</div><div id="finChart"><div class="loading"><div class="spin"></div></div></div></div>
+      <div class="card"><div class="card-title">📢 Tipos de Anúncio</div><div class="donut-wrap"><svg width="110" height="110" id="donutSvg"></svg><div class="donut-legend" id="donutLeg"></div></div></div>
+      <div class="card"><div class="card-title">🏆 Mais Vendidos</div><div class="bar-chart" id="topSoldBar"><div class="loading"><div class="spin"></div></div></div></div>
+    </div>
+    <div class="grid-2">
+      <div class="card"><div class="card-title">⚠️ Estoque Crítico</div><div class="alert-wrap" id="dashStock"><div class="loading"><div class="spin"></div></div></div></div>
+      <div class="card"><div class="card-title">❓ Perguntas Pendentes</div><div class="alert-wrap" id="dashQues"><div class="loading"><div class="spin"></div></div></div></div>
+    </div>
+  </div>
+
+  <!-- PRODUTOS -->
+  <div class="page" id="page-products">
+    <div class="kpi-grid" id="prodKPIs"></div>
+    <div class="table-wrap">
+      <div class="table-bar">
+        <span class="table-bar-title">Catálogo Mercado Livre</span>
+        <div class="table-bar-right">
+          <div class="search-box"><span>🔍</span><input type="text" placeholder="Buscar produto ou SKU..." id="prodSearch" oninput="filterProds()"></div>
+        </div>
+      </div>
+      <div class="filter-bar">
+        <button class="filter-btn active" onclick="sortProds('nome',this)">A-Z</button>
+        <button class="filter-btn" onclick="sortProds('vendidos',this)">+ Vendidos</button>
+        <button class="filter-btn" onclick="sortProds('preco',this)">Maior Preço</button>
+        <button class="filter-btn" onclick="sortProds('estoque',this)">Menor Estoque</button>
+        <button class="filter-btn" onclick="filterStatus('active',this)">Ativos</button>
+        <button class="filter-btn" onclick="filterStatus('paused',this)">Pausados</button>
+        <button class="filter-btn" onclick="filterStatus('',this)">Todos</button>
+      </div>
+      <table>
+        <thead><tr><th>Produto</th><th>Tipo</th><th>Status</th><th class="r">Preço</th><th class="r">Estoque</th><th class="r">Vendidos</th><th class="r">Link</th></tr></thead>
+        <tbody id="prodTbody"></tbody>
+      </table>
+      <div class="pag" id="prodPag"></div>
+    </div>
+  </div>
+
+  <!-- PEDIDOS -->
+  <div class="page" id="page-orders">
+    <div class="kpi-grid" id="ordKPIs"></div>
+    <div class="table-wrap">
+      <div class="table-bar">
+        <span class="table-bar-title">Pedidos Mercado Livre</span>
+        <div class="table-bar-right">
+          <select class="styled-select" id="daysSel" onchange="loadOrders()">
+            <option value="7">7 dias</option><option value="15" selected>15 dias</option>
+            <option value="30">30 dias</option>
+          </select>
+        </div>
+      </div>
+      <table>
+        <thead><tr><th>Pedido</th><th>Comprador</th><th>Data</th><th>Status</th><th class="r">Total</th><th class="r">Ação</th></tr></thead>
+        <tbody id="ordTbody"></tbody>
+      </table>
+      <div class="pag" id="ordPag"></div>
+    </div>
+  </div>
+
+  <!-- DESPESAS -->
+  <div class="page" id="page-expenses">
+    <div class="kpi-grid" id="expKPIs"></div>
+    <div class="table-wrap">
+      <div class="table-bar">
+        <span class="table-bar-title">Movimentações Financeiras</span>
+        <div class="table-bar-right">
+          <div class="search-box"><span>🔍</span><input type="text" placeholder="Buscar..." id="expSearch" oninput="filterExps()"></div>
+          <button class="btn-primary" onclick="openExpModal()">+ Adicionar</button>
+        </div>
+      </div>
+      <div class="filter-bar">
+        <button class="filter-btn active" onclick="filterExpCat('',this)">Todos</button>
+        <button class="filter-btn" onclick="filterExpCat('Lucro',this)">Receitas</button>
+        <button class="filter-btn" onclick="filterExpCat('Despesa',this)">Despesas</button>
+        <button class="filter-btn" onclick="filterExpCat('Custo',this)">Custos</button>
+      </div>
+      <table>
+        <thead><tr><th>Data</th><th>Descrição</th><th>Tipo</th><th>Responsável</th><th>Categoria</th><th class="r">Valor</th></tr></thead>
+        <tbody id="expTbody"></tbody>
+      </table>
+      <div class="pag" id="expPag"></div>
+    </div>
+  </div>
+
+  <!-- SALDO -->
+  <div class="page" id="page-balance">
+    <div class="kpi-grid" id="balKPIs"><div class="loading" style="grid-column:1/-1"><div class="spin"></div> Buscando saldo...</div></div>
+    <div class="card"><div class="card-title">💳 Detalhes da Conta</div><div id="balInfo"><div class="loading"><div class="spin"></div></div></div></div>
+  </div>
+
+  <!-- ALERTAS -->
+  <div class="page" id="page-alerts">
+    <div class="grid-2">
+      <div class="card" style="grid-column:1/-1"><div class="card-title">🔴 Margem Negativa (Planilha Abril)</div><div class="alert-wrap" id="alertNeg"></div></div>
+      <div class="card"><div class="card-title">📦 Estoque Crítico (&lt;10 un.)</div><div class="alert-wrap" id="alertStock"></div></div>
+      <div class="card"><div class="card-title">⏸️ Anúncios Pausados</div><div class="alert-wrap" id="alertPaused"></div></div>
+      <div class="card"><div class="card-title">🚫 Sem Estoque</div><div class="alert-wrap" id="alertZero"></div></div>
+      <div class="card"><div class="card-title">❓ Perguntas Sem Resposta</div><div class="alert-wrap" id="alertQues"></div></div>
+    </div>
+  </div>
+
+  <!-- PERGUNTAS -->
+  <div class="page" id="page-questions">
+    <div class="kpi-grid" id="quesKPIs"></div>
+    <div class="table-wrap">
+      <div class="table-bar"><span class="table-bar-title">Perguntas Pendentes</span><div class="table-bar-right"><button class="btn-ghost" onclick="loadQuestions()">🔄 Atualizar</button></div></div>
+      <table>
+        <thead><tr><th>Comprador</th><th>Pergunta</th><th>Data</th><th>Item</th></tr></thead>
+        <tbody id="quesTbody"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- CONFIGURAÇÕES -->
+  <div class="page" id="page-settings">
+    <div class="grid-2">
+      <div class="card">
+        <div class="card-title">🔗 Mercado Livre</div>
+        <div id="settML"></div>
+        <div style="display:flex;gap:8px;margin-top:16px;flex-wrap:wrap">
+          <button class="btn-primary" onclick="connectML()">Conectar / Reconectar</button>
+          <button class="btn-ghost" onclick="disconnectML()" style="color:var(--red);border-color:rgba(248,113,113,.2)">Desconectar</button>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title">👤 Usuários</div>
+        <div class="user-card"><div class="user-avatar">A</div><div><div style="font-size:.84rem;font-weight:500">Admin</div><div style="font-size:.72rem;color:var(--muted)">admin / mm2026</div></div></div>
+        <div class="user-card"><div class="user-avatar" style="background:linear-gradient(135deg,#60a5fa,#a78bfa)">M</div><div><div style="font-size:.84rem;font-weight:500">Mari</div><div style="font-size:.72rem;color:var(--muted)">mari / mari2026</div></div></div>
+        <div class="user-card"><div class="user-avatar" style="background:linear-gradient(135deg,#34d399,#60a5fa)">M</div><div><div style="font-size:.84rem;font-weight:500">Miriã</div><div style="font-size:.72rem;color:var(--muted)">miria / miria2026</div></div></div>
+        <div style="font-size:.71rem;color:var(--muted);margin-top:10px">Edite senhas no arquivo <code style="background:var(--s2);padding:2px 6px;border-radius:4px">.env</code></div>
+      </div>
+      <div class="card">
+        <div class="card-title">📋 Credenciais ML</div>
+        <div class="setting-row"><span class="setting-label">Client ID</span><span class="setting-val">860188825377102</span></div>
+        <div class="setting-row"><span class="setting-label">Seller ID</span><span class="setting-val">2964531935</span></div>
+      </div>
+      <div class="card">
+        <div class="card-title">ℹ️ Sistema</div>
+        <div class="setting-row"><span class="setting-label">Versão</span><span class="setting-val">2.0.0</span></div>
+        <div class="setting-row"><span class="setting-label">Stack</span><span class="setting-val">Node.js + Express</span></div>
+        <div class="setting-row"><span class="setting-label">API</span><span class="setting-val">ML v2 OAuth2</span></div>
+        <div style="margin-top:12px;padding:10px;background:rgba(248,113,113,.07);border:1px solid rgba(248,113,113,.2);border-radius:8px;font-size:.73rem;color:var(--red)">⚠️ Regenere o CLIENT_SECRET no painel ML Developers — ele foi exposto nesta conversa.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL PEDIDO -->
+<div class="modal-bg" id="ordModal" onclick="if(event.target===this)closeModal('ordModal')">
+  <div class="modal">
+    <div class="modal-top"><div class="modal-title" id="ordModalTitle">Detalhes do Pedido</div><button class="modal-close" onclick="closeModal('ordModal')">✕</button></div>
+    <div id="ordModalBody"></div>
+  </div>
+</div>
+
+<!-- MODAL DESPESA -->
+<div class="modal-bg" id="expModal" onclick="if(event.target===this)closeModal('expModal')">
+  <div class="modal">
+    <div class="modal-top"><div class="modal-title">➕ Novo Lançamento</div><button class="modal-close" onclick="closeModal('expModal')">✕</button></div>
+    <div class="form-grid">
+      <div class="form-field"><label>Data</label><input type="date" id="fData"></div>
+      <div class="form-field"><label>Valor (R$)</label><input type="number" step="0.01" id="fValor" placeholder="0,00"></div>
+      <div class="form-field full"><label>Descrição</label><input type="text" id="fDesc" placeholder="Descrição do lançamento"></div>
+      <div class="form-field"><label>Tipo</label>
+        <select id="fTipo"><option>Receitas / Vendas</option><option>Custo/A devolver</option><option>Embalagens e Envio</option><option>Produtos e Estoque</option><option>Financeiro / Outros</option><option>Marketing e Divulgação</option></select>
+      </div>
+      <div class="form-field"><label>Categoria</label>
+        <select id="fCat"><option>Lucro</option><option>Despesa</option><option>Custo</option><option>CustoPAGO</option></select>
+      </div>
+      <div class="form-field"><label>Responsável</label><input type="text" id="fResp" placeholder="Mari, Miriã, ML..."></div>
+      <div class="form-field"><label>Método</label>
+        <select id="fMetodo"><option>Pix</option><option>Cartão</option><option>Dinheiro</option><option>Transferência</option></select>
+      </div>
+    </div>
+    <button class="btn-primary" style="width:100%" onclick="addExpense()">💾 Salvar Lançamento</button>
+  </div>
+</div>
+
+<div id="toast"></div>
+
+<script>
+const S={user:null,mlOk:false,prods:[],filtProds:[],prodSort:'nome',prodStatus:'',prodPage:1,ords:[],ordPage:1,exps:[],filtExps:[],expCat:'',expPage:1,ques:[]};
+const PER=15;
+const fmt=v=>'R$\u00a0'+(v||0).toFixed(2).replace('.',',').replace(/\B(?=(\d{3})+(?!\d))/g,'.');
+const fmtN=v=>(v||0).toLocaleString('pt-BR');
+const fmtD=s=>s?new Date(s).toLocaleDateString('pt-BR'):'—';
+const el=id=>document.getElementById(id);
+const html=(id,h)=>{el(id).innerHTML=h;};
+const spin=id=>html(id,'<div class="loading"><div class="spin"></div> Carregando...</div>');
+
+function toast(msg,type='info'){const t=el('toast');t.textContent=msg;t.className=`show ${type}`;clearTimeout(t._t);t._t=setTimeout(()=>t.className='',3200);}
+
+const pageConfig={dashboard:{title:'Dashboard',sub:'Visão geral do negócio'},products:{title:'Produtos',sub:'Catálogo Mercado Livre'},orders:{title:'Pedidos',sub:'Histórico de vendas'},expenses:{title:'Despesas',sub:'Controle financeiro'},balance:{title:'Saldo',sub:'MercadoPago'},alerts:{title:'Alertas',sub:'Atenção necessária'},questions:{title:'Perguntas',sub:'Clientes aguardando resposta'},settings:{title:'Configurações',sub:'Sistema e integrações'}};
+
+function goTo(page){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
+  el('page-'+page).classList.add('active');
+  document.querySelector(`[data-page="${page}"]`).classList.add('active');
+  const c=pageConfig[page]||{};
+  el('topTitle').textContent=c.title||page;
+  el('topSub').textContent=c.sub||'';
+  if(page==='products'&&!S.prods.length)loadProducts();
+  if(page==='orders')loadOrders();
+  if(page==='balance')loadBalance();
+  if(page==='alerts')renderAlerts();
+  if(page==='questions')loadQuestions();
+  if(page==='settings')loadSettings();
+  if(page==='expenses')renderExps();
+}
+
+function refreshAll(){const a=document.querySelector('.page.active')?.id?.replace('page-','');if(a==='dashboard')loadDashboard();else if(a==='products')loadProducts();else if(a==='orders')loadOrders();else if(a==='balance')loadBalance();else if(a==='questions')loadQuestions();toast('Dados atualizados!','success');}
+
+async function checkAuth(){try{const r=await fetch('/auth/me');if(!r.ok){window.location.href='/login';return false;}const d=await r.json();S.user=d.usuario;el('userName').textContent=d.usuario.nome;el('userAv').textContent=d.usuario.nome[0].toUpperCase();return true;}catch(e){window.location.href='/login';return false;}}
+async function logout(){await fetch('/auth/logout',{method:'POST'});window.location.href='/login';}
+
+async function checkML(){try{const r=await fetch('/api/ml/status');const d=await r.json();S.mlOk=d.conectado;const pill=el('mlPill');const btn=el('btnML');if(d.conectado){pill.className='ml-pill on';el('mlPillTxt').textContent='ML Conectado';pill.onclick=()=>toast('ML conectado! User: '+d.user_id,'info');btn.textContent='✅ ML Conectado';btn.style.background='#065f46';}else{pill.className='ml-pill off';el('mlPillTxt').textContent='ML Desconectado';pill.onclick=connectML;btn.textContent='🔗 Conectar ML';btn.style.background='var(--accent)';}return d.conectado;}catch(e){return false;}}
+function connectML(){window.location.href='/api/ml/connect';}
+async function disconnectML(){await fetch('/api/ml/disconnect',{method:'POST'});await checkML();toast('ML desconectado','info');}
+
+function donut(data,total,cx=55,cy=55,r=44,ir=27){let a=-90,p='';data.forEach(d=>{const sw=(d.v/total)*360,ea=a+sw;const x1=cx+r*Math.cos(a*Math.PI/180),y1=cy+r*Math.sin(a*Math.PI/180),x2=cx+r*Math.cos(ea*Math.PI/180),y2=cy+r*Math.sin(ea*Math.PI/180),xi1=cx+ir*Math.cos(a*Math.PI/180),yi1=cy+ir*Math.sin(a*Math.PI/180),xi2=cx+ir*Math.cos(ea*Math.PI/180),yi2=cy+ir*Math.sin(ea*Math.PI/180);p+=`<path d="M${xi1} ${yi1}L${x1} ${y1}A${r} ${r} 0 ${sw>180?1:0} 1 ${x2} ${y2}L${xi2} ${yi2}A${ir} ${ir} 0 ${sw>180?1:0} 0 ${xi1} ${yi1}Z" fill="${d.c}" opacity=".92"/>`;a=ea;});return p+`<text x="${cx}" y="${cy+5}" text-anchor="middle" font-size="13" fill="#e2e8f0" font-family="Inter" font-weight="700">${total}</text>`;}
+
+function kpiHtml(items){return items.map(k=>`<div class="kpi"><div class="kpi-accent" style="background:${k.cls==='pos'?'var(--green)':k.cls==='neg'?'var(--red)':k.cls==='yl'?'var(--accent)':'var(--blue)'}"></div><div class="kpi-icon">${k.icon}</div><div class="kpi-label">${k.label}</div><div class="kpi-val ${k.cls}">${k.val}</div></div>`).join('');}
+
+async function loadDashboard(){
+  if(!S.mlOk){html('dashKPIs',`<div class="kpi" style="grid-column:1/-1;text-align:center;border-color:rgba(245,200,66,.2)"><div class="kpi-label" style="margin-bottom:10px">Mercado Livre não conectado</div><button class="btn-primary" onclick="connectML()" style="margin:0 auto">🔗 Conectar agora</button></div>`);return;}
+  spin('dashKPIs');spin('finChart');spin('topSoldBar');
+  try{
+    const[pR,oR]=await Promise.all([fetch('/api/ml/products').then(r=>r.json()),fetch('/api/ml/orders?days=30').then(r=>r.json())]);
+    const prods=pR.produtos||[];S.prods=prods;
+    const pr=pR.resumo||{},or=oR.resumo||{},fat=parseFloat(or.faturamento||0);
+    el('dashKPIs').innerHTML=kpiHtml([
+      {icon:'📦',label:'Produtos Ativos',val:fmtN(pr.ativos||0),cls:'yl'},
+      {icon:'🛒',label:'Pedidos (30d)',val:fmtN(or.total||0),cls:'bl'},
+      {icon:'💰',label:'Faturamento (30d)',val:fmt(fat),cls:'pos'},
+      {icon:'✅',label:'Pedidos Pagos',val:fmtN(or.pagos||0),cls:'pos'},
+      {icon:'⚠️',label:'Estoque Crítico',val:fmtN(pr.estoque_critico||0),cls:'neg'},
+      {icon:'⏸️',label:'Anúncios Pausados',val:fmtN(pr.pausados||0),cls:'neg'},
+    ]);
+    el('finChart').innerHTML=[{label:'Faturamento',val:fat,color:'var(--green)'},{label:'Pedidos Pagos',val:or.pagos||0,color:'var(--blue)'},{label:'Cancelados',val:or.cancelados||0,color:'var(--red)'}]
+      .map(i=>`<div class="fin-row"><div class="fin-head"><span>${i.label}</span><span style="color:${i.color};font-weight:700">${typeof i.val==='number'&&i.val>99?fmt(i.val):i.val}</span></div><div class="fin-track"><div class="fin-fill" style="width:${Math.min(Math.abs(i.val)/Math.max(fat,1)*100,100)}%;background:${i.color}"></div></div></div>`).join('');
+    const prem=prods.filter(p=>p.tipo_anuncio==='Premium').length,clas=prods.filter(p=>p.tipo_anuncio==='Clássico').length,tot=prem+clas||1;
+    el('donutSvg').innerHTML=donut([{v:prem,c:'#f5c842'},{v:clas,c:'#60a5fa'}],tot);
+    el('donutLeg').innerHTML=[{n:'Premium',v:prem,c:'#f5c842'},{n:'Clássico',v:clas,c:'#60a5fa'}].map(d=>`<div class="leg-row"><div class="leg-dot" style="background:${d.c}"></div><span class="leg-name">${d.n}</span><span class="leg-val">${d.v} (${Math.round(d.v/tot*100)}%)</span></div>`).join('');
+    const top=[...prods].sort((a,b)=>b.vendidos-a.vendidos).slice(0,7),maxS=Math.max(...top.map(p=>p.vendidos),1);
+    el('topSoldBar').innerHTML=top.length?top.map(p=>`<div class="bar-row"><div class="bar-lbl" title="${p.nome}">${p.nome.split(' ').slice(0,3).join(' ')}</div><div class="bar-track"><div class="bar-fill" style="width:${p.vendidos/maxS*100}%;background:var(--accent)"></div></div><div class="bar-num">${fmtN(p.vendidos)} un.</div></div>`).join(''):'<div class="empty">Sem dados</div>';
+    const crit=prods.filter(p=>p.alerta_estoque&&p.estoque>0);
+    el('dashStock').innerHTML=crit.length?crit.slice(0,5).map(p=>`<div class="alert-item"><span class="alert-icon">⚠️</span><div class="alert-body"><span class="alert-name">${p.nome}</span><span class="alert-sub">SKU: ${p.sku}</span></div><span class="alert-val" style="color:var(--red)">${p.estoque} un.</span></div>`).join(''):'<div class="empty">✅ Estoque saudável</div>';
+    loadQuesForDash();
+  }catch(e){toast('Erro dashboard: '+e.message,'error');}
+}
+
+async function loadQuesForDash(){try{const r=await fetch('/api/ml/questions');const d=await r.json();S.ques=d.perguntas||[];if(S.ques.length){el('quesBadge').textContent=S.ques.length;el('quesBadge').style.display='inline-block';el('alertBadge').textContent=S.ques.length;el('alertBadge').style.display='inline-block';}el('dashQues').innerHTML=S.ques.length?S.ques.slice(0,5).map(q=>`<div class="alert-item"><span class="alert-icon">❓</span><div class="alert-body"><span class="alert-name">${q.texto}</span><span class="alert-sub">${q.comprador} · ${fmtD(q.data)}</span></div></div>`).join(''):'<div class="empty">✅ Sem perguntas pendentes</div>';}catch(e){el('dashQues').innerHTML='<div class="empty">Erro ao carregar</div>';}}
+
+async function loadProducts(){html('prodTbody','<tr><td colspan="7"><div class="loading"><div class="spin"></div> Buscando produtos...</div></td></tr>');html('prodKPIs','');try{const r=await fetch('/api/ml/products');const d=await r.json();S.prods=d.produtos||[];S.filtProds=S.prods;const pr=d.resumo||{};el('prodKPIs').innerHTML=kpiHtml([{icon:'📦',label:'Total',val:fmtN(pr.total||0),cls:'yl'},{icon:'✅',label:'Ativos',val:fmtN(pr.ativos||0),cls:'pos'},{icon:'⏸️',label:'Pausados',val:fmtN(pr.pausados||0),cls:'neg'},{icon:'⚠️',label:'Est. Crítico',val:fmtN(pr.estoque_critico||0),cls:'neg'},{icon:'📊',label:'Total Estoque',val:fmtN(pr.total_estoque||0),cls:'bl'},{icon:'🏆',label:'Total Vendidos',val:fmtN(pr.total_vendidos||0),cls:'bl'}]);applyProdFilters();renderProdTable();}catch(e){html('prodTbody',`<tr><td colspan="7" class="empty">Erro: ${e.message}</td></tr>`);}}
+
+function filterProds(){applyProdFilters();S.prodPage=1;renderProdTable();}
+function filterStatus(st,btn){S.prodStatus=st;S.prodPage=1;document.querySelectorAll('.filter-bar .filter-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');applyProdFilters();renderProdTable();}
+function applyProdFilters(){const q=(el('prodSearch')?.value||'').toLowerCase();S.filtProds=S.prods.filter(p=>(!S.prodStatus||p.status===S.prodStatus)&&(p.nome.toLowerCase().includes(q)||(p.sku||'').toLowerCase().includes(q)));}
+function sortProds(f,btn){document.querySelectorAll('.filter-bar .filter-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');S.prodSort=f;S.prodPage=1;S.filtProds.sort((a,b)=>f==='nome'?a.nome.localeCompare(b.nome):f==='estoque'?a[f]-b[f]:b[f]-a[f]);renderProdTable();}
+function renderProdTable(){const pages=Math.ceil(S.filtProds.length/PER);const slice=S.filtProds.slice((S.prodPage-1)*PER,S.prodPage*PER);el('prodTbody').innerHTML=slice.map(p=>`<tr><td><span class="pname" title="${p.nome}">${p.nome}</span><span class="psku">${p.sku}</span></td><td><span class="chip ${p.tipo_anuncio==='Premium'?'chip-gold':'chip-blue'}">${p.tipo_anuncio}</span></td><td><span class="chip ${p.status==='active'?'chip-green':'chip-red'}">${p.status==='active'?'Ativo':'Pausado'}</span></td><td class="r">${fmt(p.preco)}</td><td class="r" style="color:${p.alerta_estoque?'var(--red)':p.estoque>50?'var(--green)':'var(--text)'};font-weight:${p.alerta_estoque?700:400}">${p.estoque}</td><td class="r">${fmtN(p.vendidos)}</td><td class="r"><a href="${p.permalink}" target="_blank" style="color:var(--accent);font-size:.73rem;text-decoration:none">Ver →</a></td></tr>`).join('')||'<tr><td colspan="7" class="empty">Nenhum produto</td></tr>';renderPag('prodPag',pages,S.prodPage,p=>{S.prodPage=p;renderProdTable();},S.filtProds.length);}
+
+async function loadOrders(){const days=el('daysSel')?.value||30;html('ordTbody','<tr><td colspan="6"><div class="loading"><div class="spin"></div></div></td></tr>');try{const r=await fetch(`/api/ml/orders?days=${days}`);const d=await r.json();S.ords=d.pedidos||[];S.ordPage=1;const or=d.resumo||{};el('ordKPIs').innerHTML=kpiHtml([{icon:'🛒',label:`Pedidos (${days}d)`,val:fmtN(or.total||0),cls:'yl'},{icon:'💰',label:'Faturamento',val:fmt(parseFloat(or.faturamento||0)),cls:'pos'},{icon:'✅',label:'Pagos',val:fmtN(or.pagos||0),cls:'pos'},{icon:'⏳',label:'Em Andamento',val:fmtN(or.em_andamento||0),cls:'bl'},{icon:'❌',label:'Cancelados',val:fmtN(or.cancelados||0),cls:'neg'}]);renderOrdTable();}catch(e){html('ordTbody',`<tr><td colspan="6" class="empty">Erro: ${e.message}</td></tr>`);}}
+
+function renderOrdTable(){const pages=Math.ceil(S.ords.length/PER);const slice=S.ords.slice((S.ordPage-1)*PER,S.ordPage*PER);const sc=s=>s==='paid'?'chip-green':s==='cancelled'?'chip-red':'chip-purple';const sl=s=>s==='paid'?'Pago':s==='cancelled'?'Cancelado':'Andamento';el('ordTbody').innerHTML=slice.map(o=>`<tr><td style="font-family:monospace;font-size:.73rem">#${o.id}</td><td>${o.comprador}</td><td style="color:var(--muted)">${fmtD(o.data)}</td><td><span class="chip ${sc(o.status)}">${sl(o.status)}</span></td><td class="r" style="color:var(--green);font-weight:600">${fmt(o.total)}</td><td class="r"><button onclick='showOrder(${JSON.stringify(o).replace(/'/g,"&#39;")})' style="background:var(--s2);border:1px solid var(--border);border-radius:6px;color:var(--muted2);cursor:pointer;padding:4px 10px;font-size:.72rem;font-family:inherit">Ver</button></td></tr>`).join('')||'<tr><td colspan="6" class="empty">Nenhum pedido</td></tr>';renderPag('ordPag',pages,S.ordPage,p=>{S.ordPage=p;renderOrdTable();},S.ords.length);}
+
+function showOrder(o){el('ordModalTitle').textContent='Pedido #'+o.id;el('ordModalBody').innerHTML=`<div class="modal-row"><span class="modal-row-label">Comprador</span><span>${o.comprador}</span></div><div class="modal-row"><span class="modal-row-label">Data</span><span>${fmtD(o.data)}</span></div><div class="modal-row"><span class="modal-row-label">Status</span><span>${o.status}</span></div><div class="modal-row"><span class="modal-row-label">Total</span><span style="color:var(--green);font-weight:700">${fmt(o.total)}</span></div><div style="margin:14px 0 8px;font-size:.7rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted)">Itens</div>${(o.produtos||[]).map(p=>`<div class="modal-row"><span>${p.nome}</span><span>${p.quantidade}x ${fmt(p.preco)}</span></div>`).join('')}`;el('ordModal').classList.add('open');}
+function closeModal(id){el(id).classList.remove('open');}
+
+let EXPS=[{data:'2026-04-08',descricao:'2*Taça Bubble azul 550ml Vidro',tipo:'Receitas / Vendas',valor:59.94,responsavel:'Rotativo ML',categoria:'Lucro'},{data:'2026-04-20',descricao:'Bule C/Tampa 1 Litro Wolff',tipo:'Custo/A devolver',valor:125.55,responsavel:'Gomes',categoria:'Custo'},{data:'2026-04-20',descricao:'6*Taça De Vinho Vidro Haste Madeira',tipo:'Custo/A devolver',valor:301.5,responsavel:'Gomes',categoria:'Custo'},{data:'2026-04-12',descricao:'4*Taça Bubble Verde Em Acrílico',tipo:'Receitas / Vendas',valor:60.24,responsavel:'Rotativo ML',categoria:'Lucro'},{data:'2026-04-05',descricao:'Jogo 4 Taça Bubble Verde 550ml',tipo:'Receitas / Vendas',valor:94.55,responsavel:'Rotativo ML',categoria:'Lucro'},{data:'2026-04-02',descricao:'Jogo 6 Copos Baixo 330ml Whiskey',tipo:'Receitas / Vendas',valor:11.04,responsavel:'Rotativo ML',categoria:'Lucro'},{data:'2026-04-01',descricao:'6*Taça Bubble Verde Em Acrílico',tipo:'Receitas / Vendas',valor:90.36,responsavel:'Rotativo ML',categoria:'Lucro'},{data:'2026-04-06',descricao:'Taça Bubble azul 550ml Vidro',tipo:'Receitas / Vendas',valor:29.97,responsavel:'Rotativo ML',categoria:'Lucro'},{data:'2026-04-07',descricao:'Taça Bubble Rosa 550ml Vidro',tipo:'Receitas / Vendas',valor:29.97,responsavel:'Rotativo ML',categoria:'Lucro'},{data:'2026-03-20',descricao:'6*Taça vinho vidro Wood 585ml',tipo:'Custo/A devolver',valor:301.5,responsavel:'Gomes',categoria:'Custo'},{data:'2026-03-20',descricao:'6*Taça vinho vidro Wood 585ml - Lucro',tipo:'Receitas / Vendas',valor:259.2,responsavel:'Rotativo ML',categoria:'Lucro'},{data:'2026-03-21',descricao:'3*Travessa Porcelana Línea Lyor',tipo:'Receitas / Vendas',valor:31.14,responsavel:'Rotativo ML',categoria:'Lucro'},{data:'2026-02-22',descricao:'Reputação/beneficio ML',tipo:'Embalagens e Envio',valor:375.0,responsavel:'Rotativo ML',categoria:'Despesa'},{data:'2026-02-23',descricao:'Uber - entrega',tipo:'Embalagens e Envio',valor:150.0,responsavel:'Mari',categoria:'Despesa'},{data:'2026-02-21',descricao:'Fita Crepe + Sacolas',tipo:'Embalagens e Envio',valor:30.0,responsavel:'Mari',categoria:'Despesa'},{data:'2026-02-26',descricao:'4*Kit 2 Prato Sobremesa Coelho',tipo:'Custo/A devolver',valor:67.2,responsavel:'Duchapeu',categoria:'CustoPAGO'},{data:'2026-02-27',descricao:'4*Kit 2 Prato Sobremesa Coelho - Lucro',tipo:'Receitas / Vendas',valor:35.64,responsavel:'Rotativo ML',categoria:'Lucro'},{data:'2026-02-18',descricao:'Marketing - Anúncios Retroativos',tipo:'Marketing e Divulgação',valor:21.0,responsavel:'Rotativo ML',categoria:'Despesa'},{data:'2026-02-20',descricao:'6 Pratos Rasos Fibra Bambu Limone',tipo:'Produtos e Estoque',valor:57.78,responsavel:'Mari',categoria:'Despesa'},{data:'2026-01-27',descricao:'Pendente do ano anterior',tipo:'Financeiro / Outros',valor:150.86,responsavel:'Mari',categoria:'Despesa'},{data:'2026-01-27',descricao:'Escorredor de inox multiuso 24cm',tipo:'Produtos e Estoque',valor:16.0,responsavel:'Miriã',categoria:'Despesa'},{data:'2026-01-27',descricao:'Tábua Churrasco Bambu 34x24cm',tipo:'Produtos e Estoque',valor:33.55,responsavel:'Miriã',categoria:'Despesa'},{data:'2026-01-27',descricao:'Espátula Silicone Forma air fry',tipo:'Produtos e Estoque',valor:14.99,responsavel:'Mari',categoria:'Despesa'}];
+
+function renderExps(){S.exps=[...EXPS];applyExpFilters();const luc=EXPS.filter(e=>e.categoria==='Lucro').reduce((s,e)=>s+e.valor,0);const des=EXPS.filter(e=>e.categoria==='Despesa').reduce((s,e)=>s+e.valor,0);const cus=EXPS.filter(e=>e.categoria==='Custo'||e.categoria==='CustoPAGO').reduce((s,e)=>s+e.valor,0);el('expKPIs').innerHTML=kpiHtml([{icon:'📈',label:'Receitas/Lucro',val:fmt(luc),cls:'pos'},{icon:'📉',label:'Despesas',val:fmt(des),cls:'neg'},{icon:'💼',label:'Custo Produtos',val:fmt(cus),cls:'yl'},{icon:'🎯',label:'Resultado',val:fmt(luc-des-cus),cls:luc-des-cus>=0?'pos':'neg'},{icon:'📝',label:'Lançamentos',val:fmtN(EXPS.length),cls:'bl'}]);renderExpTable();}
+function filterExps(){applyExpFilters();S.expPage=1;renderExpTable();}
+function filterExpCat(cat,btn){document.querySelectorAll('#page-expenses .filter-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');S.expCat=cat;S.expPage=1;applyExpFilters();renderExpTable();}
+function applyExpFilters(){const q=(el('expSearch')?.value||'').toLowerCase();S.filtExps=EXPS.filter(e=>(!S.expCat||e.categoria===S.expCat||(S.expCat==='Custo'&&(e.categoria==='Custo'||e.categoria==='CustoPAGO')))&&((e.descricao||'').toLowerCase().includes(q)||(e.responsavel||'').toLowerCase().includes(q)||(e.tipo||'').toLowerCase().includes(q)));}
+const catColor={Lucro:'var(--green)',Despesa:'var(--red)',Custo:'var(--accent)',CustoPAGO:'var(--accent2)'};
+function renderExpTable(){const pages=Math.ceil(S.filtExps.length/PER);const slice=S.filtExps.slice((S.expPage-1)*PER,S.expPage*PER);el('expTbody').innerHTML=slice.map(e=>`<tr><td style="color:var(--muted);white-space:nowrap">${e.data}</td><td style="max-width:220px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${e.descricao||'—'}</td><td style="color:var(--muted);font-size:.75rem;white-space:nowrap">${e.tipo||'—'}</td><td>${e.responsavel||'—'}</td><td><span style="color:${catColor[e.categoria]||'var(--muted)'};font-size:.72rem;font-weight:600">${e.categoria||'—'}</span></td><td class="r" style="color:${e.valor<0?'var(--red)':'var(--text)'};font-weight:500;white-space:nowrap">${fmt(e.valor)}</td></tr>`).join('')||'<tr><td colspan="6" class="empty">Nenhum lançamento</td></tr>';renderPag('expPag',pages,S.expPage,p=>{S.expPage=p;renderExpTable();},S.filtExps.length);}
+function openExpModal(){el('fData').value=new Date().toISOString().split('T')[0];el('expModal').classList.add('open');}
+function addExpense(){const item={data:el('fData').value,descricao:el('fDesc').value,tipo:el('fTipo').value,valor:parseFloat(el('fValor').value)||0,responsavel:el('fResp').value,categoria:el('fCat').value};if(!item.descricao||!item.valor){toast('Preencha descrição e valor','error');return;}EXPS.unshift(item);closeModal('expModal');renderExps();toast('Lançamento adicionado!','success');}
+
+async function loadBalance(){spin('balKPIs');spin('balInfo');try{const r=await fetch('/api/ml/balance');const d=await r.json();const s=d.saldo||{};el('balKPIs').innerHTML=kpiHtml([{icon:'💰',label:'Disponível',val:fmt(s.available_balance||0),cls:'pos'},{icon:'⏳',label:'Em Processo',val:fmt(s.processing_balance||0),cls:'yl'},{icon:'💳',label:'A Receber',val:fmt(s.pending_balance||0),cls:'bl'}]);el('balInfo').innerHTML=Object.entries(s).map(([k,v])=>`<div class="modal-row"><span class="modal-row-label">${k}</span><span>${typeof v==='number'?fmt(v):v}</span></div>`).join('');}catch(e){el('balKPIs').innerHTML=`<div class="empty" style="grid-column:1/-1">Erro: ${e.message}</div>`;el('balInfo').innerHTML='<div class="empty">Verifique conexão ML</div>';}}
+
+function renderAlerts(){const neg=[{nome:'Bandeja Inox Com Alça 41x29 CM',sku:'7899670814542',margem:-2.6},{nome:'Saleiro e Pimenteiro Aço Inox e Vidro',sku:'7899670821946',margem:-5.1},{nome:'Bandeja Inox 41x29 CM (Preço Baixo)',sku:'7899670814542',margem:-4.0}];el('alertNeg').innerHTML=neg.map(p=>`<div class="alert-item"><span class="alert-icon">🔴</span><div class="alert-body"><span class="alert-name">${p.nome}</span><span class="alert-sub">SKU: ${p.sku}</span></div><span class="alert-val" style="color:var(--red)">${p.margem}%</span></div>`).join('');if(!S.prods.length){['alertStock','alertPaused','alertZero','alertQues'].forEach(id=>el(id).innerHTML='<div class="empty">Conecte o ML para ver alertas</div>');return;}const crit=S.prods.filter(p=>p.alerta_estoque&&p.estoque>0);const paused=S.prods.filter(p=>p.status==='paused');const zero=S.prods.filter(p=>p.estoque===0);const rL=(items,icon,val)=>items.length?items.slice(0,8).map(p=>`<div class="alert-item"><span class="alert-icon">${icon}</span><div class="alert-body"><span class="alert-name">${p.nome}</span></div><span class="alert-val" style="color:var(--red)">${val(p)}</span></div>`).join(''):'<div class="empty">✅ Tudo certo</div>';el('alertStock').innerHTML=rL(crit,'⚠️',p=>p.estoque+' un.');el('alertPaused').innerHTML=rL(paused,'⏸️',_=>'Pausado');el('alertZero').innerHTML=rL(zero,'🚫',_=>'Sem estoque');el('alertQues').innerHTML=S.ques.length?S.ques.slice(0,5).map(q=>`<div class="alert-item"><span class="alert-icon">❓</span><div class="alert-body"><span class="alert-name">${q.texto}</span><span class="alert-sub">${q.comprador}</span></div></div>`).join(''):'<div class="empty">✅ Sem perguntas</div>';}
+
+async function loadQuestions(){html('quesTbody','<tr><td colspan="4"><div class="loading"><div class="spin"></div></div></td></tr>');try{const r=await fetch('/api/ml/questions');const d=await r.json();S.ques=d.perguntas||[];el('quesKPIs').innerHTML=`<div class="kpi"><div class="kpi-accent" style="background:${S.ques.length?'var(--red)':'var(--green)'}"></div><div class="kpi-icon">❓</div><div class="kpi-label">Perguntas Pendentes</div><div class="kpi-val ${S.ques.length?'neg':'pos'}">${S.ques.length}</div></div>`;el('quesTbody').innerHTML=S.ques.length?S.ques.map(q=>`<tr><td>${q.comprador}</td><td style="max-width:300px">${q.texto}</td><td style="color:var(--muted)">${fmtD(q.data)}</td><td><a href="https://www.mercadolivre.com.br/questions/${q.item_id}" target="_blank" style="color:var(--accent);font-size:.74rem">Ver →</a></td></tr>`).join(''):'<tr><td colspan="4" class="empty">✅ Nenhuma pergunta pendente</td></tr>';}catch(e){el('quesTbody').innerHTML=`<tr><td colspan="4" class="empty">Erro: ${e.message}</td></tr>`;}}
+
+async function loadSettings(){const r=await fetch('/api/ml/status');const d=await r.json();el('settML').innerHTML=d.conectado?`<div style="color:var(--green);font-size:.84rem;margin-bottom:6px">✅ Conectado</div><div style="color:var(--muted);font-size:.76rem">User ID: <span style="color:var(--text)">${d.user_id}</span></div><div style="color:var(--muted);font-size:.76rem">Expira: <span style="color:var(--text)">${d.expira_em}</span></div>`:`<div style="color:var(--red);font-size:.84rem">❌ Não conectado</div>`;}
+
+function renderPag(id,pages,cur,cb,total){if(pages<=1){el(id).innerHTML='';return;}const from=(cur-1)*PER+1,to=Math.min(cur*PER,total);let btns='';const s=Math.max(1,cur-2),e=Math.min(pages,cur+2);if(s>1)btns+=`<button class="pag-btn" onclick="(${cb})(1)">1</button>${s>2?'<span style="color:var(--muted);padding:0 2px">…</span>':''}`;for(let i=s;i<=e;i++)btns+=`<button class="pag-btn ${i===cur?'active':''}" onclick="(${cb})(${i})">${i}</button>`;if(e<pages)btns+=`${e<pages-1?'<span style="color:var(--muted);padding:0 2px">…</span>':''}<button class="pag-btn" onclick="(${cb})(${pages})">${pages}</button>`;el(id).innerHTML=`<span style="color:var(--muted)">${from}–${to} de ${total}</span><div class="pag-btns">${btns}</div>`;}
+
+async function init(){const ok=await checkAuth();if(!ok)return;await checkML();await loadDashboard();const p=new URLSearchParams(location.search);if(p.get('ml')==='conectado'){toast('✅ Mercado Livre conectado!','success');history.replaceState({},'','/');}if(p.get('ml')==='erro'){toast('❌ Erro ao conectar com ML','error');}}
+init();
+</script>
+</body>
+</html>

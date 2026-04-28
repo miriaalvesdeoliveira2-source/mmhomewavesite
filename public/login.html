@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MM Sucesso e Vendas — Login</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@300;400;500&display=swap');
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'DM Sans',sans-serif;background:#0d0f14;min-height:100vh;display:flex;align-items:center;justify-content:center}
+  .bg{position:fixed;inset:0;background:radial-gradient(ellipse 80% 60% at 50% -10%,rgba(240,192,64,.15),transparent)}
+  .card{background:#13161e;border:1px solid #252a38;border-radius:20px;padding:48px 40px;width:100%;max-width:400px;position:relative;z-index:1}
+  .logo{font-family:'Syne',sans-serif;font-size:1.6rem;font-weight:800;color:#e8eaf0;text-align:center;margin-bottom:6px}
+  .logo span{color:#f0c040}
+  .sub{text-align:center;color:#6b7280;font-size:.85rem;margin-bottom:36px}
+  label{display:block;font-size:.78rem;color:#9ca3af;text-transform:uppercase;letter-spacing:.08em;margin-bottom:6px;margin-top:18px}
+  input{width:100%;background:#0d0f14;border:1px solid #252a38;border-radius:10px;padding:12px 16px;color:#e8eaf0;font-family:'DM Sans',sans-serif;font-size:.9rem;outline:none;transition:border .2s}
+  input:focus{border-color:#f0c040}
+  .btn{width:100%;margin-top:28px;padding:14px;background:#f0c040;color:#000;border:none;border-radius:10px;font-family:'Syne',sans-serif;font-size:1rem;font-weight:700;cursor:pointer;transition:opacity .2s}
+  .btn:hover{opacity:.88}
+  .btn:disabled{opacity:.5;cursor:not-allowed}
+  .erro{background:rgba(248,113,113,.1);border:1px solid rgba(248,113,113,.3);border-radius:8px;padding:10px 14px;color:#f87171;font-size:.82rem;margin-top:14px;display:none}
+  .users-hint{margin-top:24px;padding-top:18px;border-top:1px solid #252a38;font-size:.74rem;color:#4b5563;text-align:center}
+  .users-hint strong{color:#6b7280}
+</style>
+</head>
+<body>
+<div class="bg"></div>
+<div class="card">
+  <div class="logo">MM <span>Sucesso</span> & Vendas</div>
+  <div class="sub">Painel de Gestão Mercado Livre 2026</div>
+  <label>Usuário</label>
+  <input type="text" id="usuario" placeholder="Digite seu usuário" autocomplete="username">
+  <label>Senha</label>
+  <input type="password" id="senha" placeholder="••••••••" autocomplete="current-password" onkeydown="if(event.key==='Enter')login()">
+  <button class="btn" onclick="login()" id="btnLogin">Entrar</button>
+  <div class="erro" id="erro"></div>
+  <div class="users-hint">
+    Usuários: <strong>admin</strong> / <strong>mari</strong> / <strong>miria</strong>
+  </div>
+</div>
+<script>
+async function login() {
+  const usuario = document.getElementById('usuario').value.trim();
+  const senha   = document.getElementById('senha').value;
+  const btn     = document.getElementById('btnLogin');
+  const erro    = document.getElementById('erro');
+  if (!usuario || !senha) { showErro('Preencha usuário e senha'); return; }
+  btn.disabled = true; btn.textContent = 'Entrando...';
+  try {
+    const r = await fetch('/auth/login', {
+      method: 'POST',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({ usuario, senha }),
+    });
+    const data = await r.json();
+    if (r.ok) { window.location.href = '/'; }
+    else { showErro(data.erro || 'Erro ao fazer login'); }
+  } catch(e) { showErro('Erro de conexão'); }
+  btn.disabled = false; btn.textContent = 'Entrar';
+}
+function showErro(msg) {
+  const el = document.getElementById('erro');
+  el.textContent = msg; el.style.display = 'block';
+}
+</script>
+</body>
+</html>
