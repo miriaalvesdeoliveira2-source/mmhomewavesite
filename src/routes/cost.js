@@ -16,7 +16,9 @@ router.post('/product/cost', async (req, res) => {
 
   // tenta enviar para a planilha, mas não quebra o sistema se falhar
   try {
-    if (process.env.GOOGLE_SHEETS_WEBHOOK_URL) {
+    if (!process.env.GOOGLE_SHEETS_WEBHOOK_URL) {
+  console.error('GOOGLE_SHEETS_WEBHOOK_URL não configurada no Render');
+} else {
       await fetch(process.env.GOOGLE_SHEETS_WEBHOOK_URL, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
