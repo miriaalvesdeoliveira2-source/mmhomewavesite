@@ -1087,19 +1087,28 @@ function filterProds(){applyProdFilters();S.prodPage=1;renderProdTable();}
 function filterStatus(st,btn){S.prodStatus=st;S.prodPage=1;document.querySelectorAll('.filter-bar .filter-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');applyProdFilters();renderProdTable();}
 function applyProdFilters(){const q=(el('prodSearch')?.value||'').toLowerCase();S.filtProds=S.prods.filter(p=>(!S.prodStatus||p.status===S.prodStatus)&&(p.nome.toLowerCase().includes(q)||(p.sku||'').toLowerCase().includes(q)));}
 function sortProds(f,btn){document.querySelectorAll('.filter-bar .filter-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');S.prodSort=f;S.prodPage=1;S.filtProds.sort((a,b)=>f==='nome'?a.nome.localeCompare(b.nome):f==='estoque'?a[f]-b[f]:b[f]-a[f]);renderProdTable();}
-<td class="r">${fmt(p.preco)}</td>
+function renderProdTable(){
+  const pages = Math.ceil(S.filtProds.length / PER);
+  const slice = S.filtProds.slice((S.prodPage - 1) * PER, S.prodPage * PER);
 
-<td class="r"
-    style="cursor:pointer;color:${!p.custo ? 'var(--gold)' : 'var(--text)'}"
-    onclick="setCost('${p.id}')">
-  ${p.custo ? fmt(p.custo) : 'Custo não informado'}
-</td>
+  el('prodTbody').innerHTML = slice.map(p => `
+    <tr>
+      <td><span class="pname" title="${p.nome}">${p.nome}</span><span class="psku">${p.sku}</span></td>
+      <td><span class="chip ${p.tipo_anuncio === 'Premium' ? 'chip-gold' : 'chip-blue'}">${p.tipo_anuncio}</span></td>
+      <td><span class="chip ${p.status === 'active' ? 'chip-green' : 'chip-red'}">${p.status === 'active' ? 'Ativo' : 'Pausado'}</span></td>
+      <td class="r">${fmt(p.preco)}</td>
+      <td class="r" style="cursor:pointer;color:${!p.custo ? 'var(--gold)' : 'var(--text)'}" onclick="setCost('${p.id}')">${p.custo ? fmt(p.custo) : 'Custo não informado'}</td>
+      <td class="r" style="color:${p.alerta_estoque ? 'var(--red)' : p.estoque > 50 ? 'var(--green)' : 'var(--text)'};font-weight:${p.alerta_estoque ? 700 : 400}">${p.estoque}</td>
+      <td class="r">${fmtN(p.vendidos)}</td>
+      <td class="r"><a href="${p.permalink}" target="_blank" style="color:var(--accent);font-size:.73rem;text-decoration:none">Ver →</a></td>
+    </tr>
+  `).join('') || '<tr><td colspan="8" class="empty">Nenhum produto</td></tr>';
 
-<td class="r"
-    style="color:${p.alerta_estoque?'var(--red)':p.estoque>50?'var(--green)':'var(--text)'};font-weight:${p.alerta_estoque?700:400}">
-  ${p.estoque}
-</td><td class="r">${fmtN(p.vendidos)}</td><td class="r"><a href="${p.permalink}" target="_blank" style="color:var(--accent);font-size:.73rem;text-decoration:none">Ver →</a></td></tr>`).join('')||'<tr><td colspan="7" class="empty">Nenhum produto</td></tr>';renderPag('prodPag',pages,S.prodPage,p=>{S.prodPage=p;renderProdTable();},S.filtProds.length);}
-
+  renderPag('prodPag', pages, S.prodPage, p => {
+    S.prodPage = p;
+    renderProdTable();
+  }, S.filtProds.length);
+}
 async function loadOrders(){const days=el('daysSel')?.value||30;html('ordTbody','<tr><td colspan="6"><div class="loading"><div class="spin"></div></div></td></tr>');try{const r=await fetch(`/api/ml/orders?days=${days}`);const d=await r.json();S.ords=d.pedidos||[];S.ordPage=1;const or=d.resumo||{};el('ordKPIs').innerHTML=kpiHtml([{icon:'🛒',label:`Pedidos (${days}d)`,val:fmtN(or.total||0),cls:'yl'},{icon:'💰',label:'Faturamento',val:fmt(parseFloat(or.faturamento||0)),cls:'pos'},{icon:'✅',label:'Pagos',val:fmtN(or.pagos||0),cls:'pos'},{icon:'⏳',label:'Em Andamento',val:fmtN(or.em_andamento||0),cls:'bl'},{icon:'❌',label:'Cancelados',val:fmtN(or.cancelados||0),cls:'neg'}]);renderOrdTable();}catch(e){html('ordTbody',`<tr><td colspan="6" class="empty">Erro: ${e.message}</td></tr>`);}}
 
 function renderOrdTable(){const pages=Math.ceil(S.ords.length/PER);const slice=S.ords.slice((S.ordPage-1)*PER,S.ordPage*PER);const sc=s=>s==='paid'?'chip-green':s==='cancelled'?'chip-red':'chip-purple';const sl=s=>s==='paid'?'Pago':s==='cancelled'?'Cancelado':'Andamento';el('ordTbody').innerHTML=slice.map(o=>`<tr><td style="font-family:monospace;font-size:.73rem">#${o.id}</td><td>${o.comprador}</td><td style="color:var(--muted)">${fmtD(o.data)}</td><td><span class="chip ${sc(o.status)}">${sl(o.status)}</span></td><td class="r" style="color:var(--green);font-weight:600">${fmt(o.total)}</td><td class="r"><button onclick='showOrder(${JSON.stringify(o).replace(/'/g,"&#39;")})' style="background:var(--s2);border:1px solid var(--border);border-radius:6px;color:var(--muted2);cursor:pointer;padding:4px 10px;font-size:.72rem;font-family:inherit">Ver</button></td></tr>`).join('')||'<tr><td colspan="6" class="empty">Nenhum pedido</td></tr>';renderPag('ordPag',pages,S.ordPage,p=>{S.ordPage=p;renderOrdTable();},S.ords.length);}
